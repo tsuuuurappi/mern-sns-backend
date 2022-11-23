@@ -8,7 +8,7 @@ router.put('/:id', async (req, res) => {
   // req.params=[*/user/ランダムid]のランダムid
   if (req.body.userId === req.params.id || req.body.isAdmin) {
     try {
-      const user = await User.findByIdAndUpdate(req.params.id, {
+      await User.findByIdAndUpdate(req.params.id, {
         // $set=すべてのパラメータ ※今回の場合、Userスキーマの全パラメータ
         // req.body=更新するパラメータの値
         $set: req.body,
@@ -27,7 +27,7 @@ router.delete('/:id', async (req, res) => {
   // req.params=[*/user/ランダムid]のランダムid
   if (req.body.userId === req.params.id || req.body.isAdmin) {
     try {
-      const user = await User.findByIdAndDelete(req.params.id);
+      await User.findByIdAndDelete(req.params.id);
       res.status(200).json('ユーザー情報が削除されました');
     } catch (err) {
       return res.status(500).json(err);
@@ -75,7 +75,7 @@ router.put('/:id/follow', async (req, res) => {
       } else {
         return res.status(403).json('あなたはすでにこのユーザーをフォローしています。');
       }
-    } catch (error) {
+    } catch (err) {
       return res.status(500).json(err);
     }
   } else {
@@ -109,7 +109,7 @@ router.put('/:id/unfollow', async (req, res) => {
       } else {
         return res.status(403).json('このユーザーはフォロー解除できません。');
       }
-    } catch (error) {
+    } catch (err) {
       return res.status(500).json(err);
     }
   } else {
