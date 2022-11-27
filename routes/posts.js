@@ -82,13 +82,24 @@ router.put('/:id/like', async (req, res) => {
   }
 });
 
+// プロフィール専用のタイムラインの取得
+router.get('/profile/:username', async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    const posts = await Post.find({ userId: user._id });
+    return res.status(200).json(posts);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 // タイムラインの投稿を取得
 // このルーティングの上に「:id」任意の文字列で受け取るルーティングが存在するため
 // 下記のように、/allを末尾指定してあげる必要がある ※コードの記載順がもろに影響する
-router.get('/timeline/all', async (req, res) => {
+router.get('/timeline/:userId', async (req, res) => {
   try {
     // 自分自身の投稿
-    const currentUser = await User.findById(req.body.userId);
+    const currentUser = await User.findById(req.params.userId);
     // PostスキーマのuserIdを取得するために[currentUser._id=currentUserのid]をfind引数にしている
     const userPosts = await Post.find({ userId: currentUser._id });
 

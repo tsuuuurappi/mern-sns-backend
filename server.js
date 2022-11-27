@@ -3,7 +3,7 @@ const app = express();
 const userRoute = require('./routes/users');
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/posts');
-const PORT = 3000;
+const PORT = 5000;
 const mongoose = require('mongoose');
 // dotenvライブラリの利用(process.env.xxxで.envの設定値を利用できる)
 require('dotenv').config();
